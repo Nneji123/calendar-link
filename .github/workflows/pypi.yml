@@ -1,7 +1,7 @@
-name: publish-pypi
+name: Pypi
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
