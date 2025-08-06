@@ -78,16 +78,16 @@ extra:
 
 plugins:
   - search
-  - minify:
-      minify_html: true
-  - git-revision-date-localized:
-      enable_creation_date: true
-  - git-authors
-  - section-index
-  - awesome-pages
-  - macros:
-      include_dir: docs/macros
-  - mermaid2
+  # - minify:
+  #     minify_html: true
+  # - git-revision-date-localized:
+  #     enable_creation_date: true
+  # - git-authors
+  # - section-index
+  # - awesome-pages
+  # - macros:
+  #     include_dir: docs/macros
+  # - mermaid2
 
 markdown_extensions:
   - admonition
@@ -107,9 +107,6 @@ markdown_extensions:
       smart_enable: all
   - pymdownx.caret
   - pymdownx.details
-  - pymdownx.emoji:
-      emoji_generator: !!python/name:materialx.emoji.to_svg
-      emoji_index: !!python/name:materialx.emoji.twemoji
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
@@ -127,11 +124,11 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
-  - pymdownx.tabbed:
-      alternate_style: true
-      combine_header_slug: true
-      slug_sequence: true
-      tabs_style: is-boxed
+  # - pymdownx.tabbed:
+  #     alternate_style: true
+  #     combine_header_slug: true
+  #     slug_sequence: true
+  #     tabs_style: is-boxed
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.tilde
