@@ -1,5 +1,10 @@
 # Calendar Link Generator
 
+[![Tests](https://github.com/Nneji123/calendar-link/actions/workflows/tests.yml/badge.svg)](https://github.com/Nneji123/calendar-link/actions/workflows/tests.yml)
+[![Deploy Docs](https://github.com/Nneji123/calendar-link/actions/workflows/docs.yml/badge.svg)](https://github.com/Nneji123/calendar-link/actions/workflows/docs.yml)
+[![Codecov](https://github.com/Nneji123/calendar-link/actions/workflows/codecov.yml/badge.svg)](https://github.com/Nneji123/calendar-link/actions/workflows/codecov.yml)
+[![Pypi](https://github.com/Nneji123/calendar-link/actions/workflows/pypi.yml/badge.svg)](https://github.com/Nneji123/calendar-link/actions/workflows/pypi.yml)
+
 A Python package for generating calendar links and ICS files for various calendar services including Google Calendar, Apple Calendar, Yahoo Calendar, AOL Calendar, and Microsoft 365.
 
 ## Features
