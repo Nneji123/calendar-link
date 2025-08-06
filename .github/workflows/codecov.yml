@@ -32,7 +32,7 @@ jobs:
           PYTHONPATH: ${{ github.workspace }}/src
     
       - name: Upload coverage reports to Codecov
-          uses: codecov/codecov-action@v5
-          with:
-            token: ${{ secrets.CODECOV_TOKEN }}
-            slug: Nneji123/calendar-link
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: Nneji123/calendar-link
