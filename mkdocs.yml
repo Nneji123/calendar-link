@@ -1,0 +1,166 @@
+site_name: Calendar Link Generator
+site_description: Generate calendar links and ICS files for various calendar services
+site_author: Calendar Link Generator Team
+site_url: https://nneji123.github.io/calendar-link/
+
+repo_name: nneji123/calendar-link
+repo_url: https://github.com/nneji123/calendar-link
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - content.action.edit
+    - content.action.view
+    - header.autohide
+    - toc.follow
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+    search: material/magnify
+    tag: material/tag-multiple
+    previous: material/chevron-left
+    next: material/chevron-right
+    share: material/share-variant
+    top: material/chevron-up
+    link: material/link-variant
+    download: material/download
+    lightbulb: material/lightbulb
+    warning: material/alert
+    info: material/information
+    tip: material/help-circle
+    success: material/check-circle
+    failure: material/close-circle
+    bug: material/bug
+    example: material/format-list-checks
+    quote: material/format-quote-close
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/nneji123/calendar-link
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/calendar_link
+  version:
+    provider: mike
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+
+plugins:
+  - search
+  - minify:
+      minify_html: true
+  - git-revision-date-localized:
+      enable_creation_date: true
+  - git-authors
+  - section-index
+  - awesome-pages
+  - macros:
+      include_dir: docs/macros
+  - mermaid2
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - codehilite:
+      guess_lang: false
+      linenums: true
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+      title: On this page
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:materialx.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      auto_append:
+        - includes/mkdocs.md
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slug_sequence: true
+      tabs_style: is-boxed
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quick-start.md
+    - Basic Usage: getting-started/basic-usage.md
+  - User Guide:
+    - Calendar Events: user-guide/calendar-events.md
+    - Calendar Generator: user-guide/calendar-generator.md
+    - Supported Services: user-guide/supported-services.md
+    - Timezone Handling: user-guide/timezone-handling.md
+    - Error Handling: user-guide/error-handling.md
+  - API Reference:
+    - CalendarEvent: api/calendar-event.md
+    - CalendarGenerator: api/calendar-generator.md
+    - Exceptions: api/exceptions.md
+    - Utilities: api/utils.md
+  - Examples:
+    - Basic Examples: examples/basic-examples.md
+    - Advanced Examples: examples/advanced-examples.md
+    - Integration Examples: examples/integration-examples.md
+  - Development:
+    - Contributing: development/contributing.md
+    - Testing: development/testing.md
+    - Building: development/building.md
+  - About:
+    - Changelog: about/changelog.md
+    - License: about/license.md 
