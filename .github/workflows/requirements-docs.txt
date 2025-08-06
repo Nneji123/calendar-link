@@ -1,5 +1,0 @@
-mkdocs
-mkdocs-click
-mkdocs-material
-mdx-include
-markdown-grid-tables
