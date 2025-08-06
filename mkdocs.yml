@@ -78,16 +78,16 @@ extra:
 
 plugins:
   - search
-  # - minify:
-  #     minify_html: true
-  # - git-revision-date-localized:
-  #     enable_creation_date: true
-  # - git-authors
-  # - section-index
-  # - awesome-pages
-  # - macros:
-  #     include_dir: docs/macros
-  # - mermaid2
+  - minify:
+      minify_html: true
+  - git-revision-date-localized:
+      enable_creation_date: true
+  - git-authors
+  - section-index
+  - awesome-pages
+  - macros:
+      include_dir: docs/macros
+  - mermaid2
 
 markdown_extensions:
   - admonition

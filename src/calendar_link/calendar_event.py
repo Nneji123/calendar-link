@@ -57,7 +57,8 @@ class CalendarEvent:
         if not self.title or not self.title.strip():
             raise InvalidEventDataError("Event title is required")
 
-        if self.start_time >= self.end_time:
+        # For all-day events, allow same start and end time
+        if not self.all_day and self.start_time >= self.end_time:
             raise InvalidEventDataError("Start time must be before end time")
 
         if self.all_day and (self.start_time.hour != 0 or self.end_time.hour != 0):

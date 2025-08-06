@@ -73,21 +73,37 @@ class CalendarGenerator:
         Returns:
             ICS file content as string
         """
-        calendar = Calendar()
-        ical_event = IcalEvent(
-            summary=event.title,
-            dtstart=event.start_time,
-            dtend=event.end_time,
-            description=event.description,
-            location=event.location,
-        )
-
+        # Generate ICS content manually
+        lines = [
+            "BEGIN:VCALENDAR",
+            "VERSION:2.0",
+            "PRODID:-//Calendar Link Generator//EN",
+            "CALSCALE:GREGORIAN",
+            "METHOD:PUBLISH",
+            "BEGIN:VEVENT",
+            f"UID:{event.title.replace(' ', '_')}_{event.start_time.strftime('%Y%m%d%H%M%S')}",
+            f"DTSTAMP:{datetime.now().strftime('%Y%m%dT%H%M%SZ')}",
+            f"DTSTART:{event.start_time.strftime('%Y%m%dT%H%M%SZ')}",
+            f"DTEND:{event.end_time.strftime('%Y%m%dT%H%M%SZ')}",
+            f"SUMMARY:{event.title}",
+        ]
+        
+        if event.description:
+            lines.append(f"DESCRIPTION:{event.description}")
+        
+        if event.location:
+            lines.append(f"LOCATION:{event.location}")
+        
         # Add attendees
         for attendee in event.attendees:
-            ical_event.attendees.append(attendee)
-
-        calendar.events.append(ical_event)
-        return str(calendar)
+            lines.append(f"ATTENDEE:{attendee}")
+        
+        lines.extend([
+            "END:VEVENT",
+            "END:VCALENDAR"
+        ])
+        
+        return "\r\n".join(lines)
 
     def generate_all_links(self, event: CalendarEvent) -> Dict[str, str]:
         """

@@ -85,6 +85,15 @@ def validate_email(email: str) -> bool:
         True if valid email format, False otherwise
     """
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    # Additional checks for common invalid patterns
+    if not email or '@' not in email:
+        return False
+    if email.startswith('@') or email.endswith('@'):
+        return False
+    if '..' in email.split('@')[0] or '..' in email.split('@')[1]:
+        return False
+    if email.count('@') != 1:
+        return False
     return bool(re.match(pattern, email))
 
 
@@ -135,7 +144,7 @@ def get_timezone_offset(timezone: str) -> int:
 
 def is_business_hours(dt: datetime, timezone: str = "UTC") -> bool:
     """
-    Check if datetime is during business hours (9 AM - 5 PM).
+    Check if datetime is during business hours (9 AM - 5 PM, Monday-Friday).
     
     Args:
         dt: datetime object
@@ -148,7 +157,8 @@ def is_business_hours(dt: datetime, timezone: str = "UTC") -> bool:
         tz_obj = pytz.timezone(timezone)
         local_dt = dt.astimezone(tz_obj)
         hour = local_dt.hour
-        return 9 <= hour < 17
+        weekday = local_dt.weekday()  # Monday = 0, Sunday = 6
+        return weekday < 5 and 9 <= hour < 17  # Monday-Friday, 9 AM - 5 PM
     except pytz.exceptions.UnknownTimeZoneError:
         return False
 

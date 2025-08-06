@@ -51,11 +51,11 @@ class TestCalendarGenerator:
         link = self.generator.generate_link(self.event, "apple")
         
         assert "webcal://calendar.apple.com" in link
-        assert "title=Test+Meeting" in link
+        assert "title=Test%20Meeting" in link
         assert "start=2024-01-15T10:00:00" in link
         assert "end=2024-01-15T11:00:00" in link
-        assert "description=Test+description" in link
-        assert "location=Test+Location" in link
+        assert "description=Test%20description" in link
+        assert "location=Test%20Location" in link
 
     def test_generate_yahoo_link(self):
         """Test generating Yahoo Calendar link."""
@@ -89,8 +89,8 @@ class TestCalendarGenerator:
         assert "path=%2Fcalendar%2Faction%2Fcompose" in link
         assert "rru=addevent" in link
         assert "subject=Test+Meeting" in link
-        assert "startdt=2024-01-15T10:00:00" in link
-        assert "enddt=2024-01-15T11:00:00" in link
+        assert "startdt=2024-01-15T10%3A00%3A00" in link
+        assert "enddt=2024-01-15T11%3A00%3A00" in link
         assert "body=Test+description" in link
         assert "location=Test+Location" in link
 
