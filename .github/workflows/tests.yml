@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  publish:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,17 +18,15 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache-dependency-path: pyproject.toml
+          cache: "pip"
 
-      - name: Install build dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install uv
+          pip install -e ".[dev]"
     
       - name: Run tests with coverage
         run: |
-          python -m uv sync --dev
-          python -m uv run pytest tests
+          pytest tests --cov=src --cov-report=term-missing
         env:
           PYTHONPATH: ${{ github.workspace }}/src
-    
