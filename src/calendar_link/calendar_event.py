@@ -83,11 +83,13 @@ class CalendarEvent:
                 'description': 'Team meeting',
                 'location': 'Conference Room A'
             })
-        """
+"""
         # Parse datetime strings if provided
         start_time = data.get("start_time")
         if isinstance(start_time, str):
             start_time = parser.parse(start_time)
+        elif start_time is None:
+            raise InvalidEventDataError("start_time is required")
 
         end_time = data.get("end_time")
         if isinstance(end_time, str):

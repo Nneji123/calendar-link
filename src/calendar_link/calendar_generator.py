@@ -3,9 +3,9 @@
 import urllib.parse
 from datetime import datetime
 from typing import Optional, Dict, Any
-from ical.calendar import Calendar
-from ical.event import Event as IcalEvent
 import pytz
+import icalendar
+from zoneinfo import ZoneInfo
 
 from .calendar_event import CalendarEvent
 from .exceptions import UnsupportedCalendarServiceError
@@ -65,7 +65,7 @@ class CalendarGenerator:
 
     def generate_ics(self, event: CalendarEvent) -> str:
         """
-        Generate ICS file content for the event.
+        Generate ICS file content for the event using the icalendar library.
 
         Args:
             event: CalendarEvent instance
@@ -73,37 +73,54 @@ class CalendarGenerator:
         Returns:
             ICS file content as string
         """
-        # Generate ICS content manually
-        lines = [
-            "BEGIN:VCALENDAR",
-            "VERSION:2.0",
-            "PRODID:-//Calendar Link Generator//EN",
-            "CALSCALE:GREGORIAN",
-            "METHOD:PUBLISH",
-            "BEGIN:VEVENT",
-            f"UID:{event.title.replace(' ', '_')}_{event.start_time.strftime('%Y%m%d%H%M%S')}",
-            f"DTSTAMP:{datetime.now().strftime('%Y%m%dT%H%M%SZ')}",
-            f"DTSTART:{event.start_time.strftime('%Y%m%dT%H%M%SZ')}",
-            f"DTEND:{event.end_time.strftime('%Y%m%dT%H%M%SZ')}",
-            f"SUMMARY:{event.title}",
-        ]
+        # Create calendar
+        cal = icalendar.Calendar()
+        cal.add('prodid', '-//Calendar Link Generator//EN')
+        cal.add('version', '2.0')
+        cal.add('calscale', 'GREGORIAN')
+        cal.add('method', 'PUBLISH')
+
+        # Create event
+        ical_event = icalendar.Event()
         
+        # Add UID
+        uid = f"{event.title.replace(' ', '_')}_{event.start_time.strftime('%Y%m%d%H%M%S')}@calendar-link-generator"
+        ical_event.add('uid', uid)
+        
+        # Add timestamp
+        ical_event.add('dtstamp', datetime.now())
+        
+        # Add title/summary
+        ical_event.add('summary', event.title)
+        
+        # Handle timezone properly
+        start_dt = self._ensure_timezone(event.start_time, event.timezone)
+        end_dt = self._ensure_timezone(event.end_time, event.timezone)
+        
+        if event.all_day:
+            # For all-day events, use DATE format
+            ical_event.add('dtstart', start_dt.date())
+            ical_event.add('dtend', end_dt.date())
+        else:
+            # For timed events, use datetime with timezone
+            ical_event.add('dtstart', start_dt)
+            ical_event.add('dtend', end_dt)
+        
+        # Add optional fields
         if event.description:
-            lines.append(f"DESCRIPTION:{event.description}")
+            ical_event.add('description', event.description)
         
         if event.location:
-            lines.append(f"LOCATION:{event.location}")
+            ical_event.add('location', event.location)
         
         # Add attendees
         for attendee in event.attendees:
-            lines.append(f"ATTENDEE:{attendee}")
+            ical_event.add('attendee', f"mailto:{attendee}")
         
-        lines.extend([
-            "END:VEVENT",
-            "END:VCALENDAR"
-        ])
+        # Add event to calendar
+        cal.add_component(ical_event)
         
-        return "\r\n".join(lines)
+        return cal.to_ical().decode('utf-8')
 
     def generate_all_links(self, event: CalendarEvent) -> Dict[str, str]:
         """
@@ -245,4 +262,31 @@ class CalendarGenerator:
 
     def get_supported_services(self) -> Dict[str, str]:
         """Get list of supported calendar services."""
-        return self.SUPPORTED_SERVICES.copy() 
+        return self.SUPPORTED_SERVICES.copy()
+
+    def _ensure_timezone(self, dt: datetime, timezone: Optional[str] = None) -> datetime:
+        """
+        Ensure datetime has proper timezone information.
+        
+        Args:
+            dt: Input datetime
+            timezone: Timezone string to use
+            
+        Returns:
+            Datetime with timezone
+        """
+        if dt.tzinfo is not None:
+            # Already has timezone
+            return dt
+        
+        # Add timezone
+        if timezone:
+            try:
+                tz = ZoneInfo(timezone)
+                return dt.replace(tzinfo=tz)
+            except Exception:
+                # Fallback to UTC if timezone is invalid
+                return dt.replace(tzinfo=ZoneInfo('UTC'))
+        else:
+            # Default to UTC
+            return dt.replace(tzinfo=ZoneInfo('UTC'))

@@ -215,9 +215,9 @@ class TestCalendarGenerator:
         """Test ICS generation with attendees."""
         ics_content = self.generator.generate_ics(self.event)
         
-        # Check that attendees are included in ICS
-        assert "ATTENDEE:john@example.com" in ics_content
-        assert "ATTENDEE:jane@example.com" in ics_content
+# Check that attendees are included in ICS
+        assert "ATTENDEE:mailto:john@example.com" in ics_content
+        assert "ATTENDEE:mailto:jane@example.com" in ics_content
 
     def test_ics_without_optional_fields(self):
         """Test ICS generation without optional fields."""
